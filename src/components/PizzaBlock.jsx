@@ -1,8 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 
 export const PizzaBlock = ({ imageUrl, pizzasName, types, sizes, price }) => {
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [activeSize, setActiveSize] = React.useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
 
   const typeNames = ['тонкое', 'традиционное'];
 

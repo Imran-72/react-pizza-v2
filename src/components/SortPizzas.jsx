@@ -1,4 +1,17 @@
-export const SortPizzas = () => {
+import { useState } from 'react';
+
+export const SortPizzas = ({ value, getSortPizza }) => {
+  const sortList = ['популярности', 'цене', 'алфавиту'];
+
+  const [openSortPopup, setOpenSortPopup] = useState(false);
+
+  const sortedName = sortList[value];
+
+  const handleSortPizzas = (index) => {
+    getSortPizza(index);
+    setOpenSortPopup(false);
+  };
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -13,15 +26,22 @@ export const SortPizzas = () => {
             fill="#2C2C2C"></path>
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setOpenSortPopup(!openSortPopup)}>{sortedName}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {openSortPopup && (
+        <div className="sort__popup">
+          <ul>
+            {sortList.map((el, i) => (
+              <li
+                key={el + i}
+                onClick={() => handleSortPizzas(i)}
+                className={value === i ? 'active' : ''}>
+                {el}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,28 +1,28 @@
+import { Route, Routes } from 'react-router-dom';
+
 import './scss/app.scss';
 
 import { Header } from './components/Header';
-import { Categories } from './components/Categories';
-import { SortPizzas } from './components/SortPizzas';
-import { PizzaBlock } from './components/PizzaBlock';
-import pizzas from './assets/pizzas.json';
+import { Basket } from './components/Basket';
+import { PizzaBlockContainer } from './components/PizzaBlockContainer';
+import { NotFound } from './pages/NotFound';
+import { useState } from 'react';
 
 function App() {
+  const [inputValue, SetInputValue] = useState('');
+
+  console.log(inputValue);
   return (
     <>
       <div className="wrapper">
-        <Header />
+        <Header value={inputValue} inputChange={SetInputValue} />
         <div className="content">
           <div className="container">
-            <div className="content__top">
-              <Categories />
-              <SortPizzas />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-              {pizzas.map(({ id, ...rest }) => (
-                <PizzaBlock key={id} {...rest} />
-              ))}
-            </div>
+            <Routes>
+              <Route path="/" element={<PizzaBlockContainer inputValue={inputValue} />} />
+              <Route path="/basket" element={<Basket />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </div>
         </div>
       </div>
