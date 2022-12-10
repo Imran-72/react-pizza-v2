@@ -6,25 +6,28 @@ import { Header } from './components/Header';
 import { Basket } from './components/Basket';
 import { PizzaBlockContainer } from './components/PizzaBlockContainer';
 import { NotFound } from './pages/NotFound';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
+
+export const SearchContext = createContext();
 
 function App() {
   const [inputValue, SetInputValue] = useState('');
 
-  console.log(inputValue);
   return (
     <>
       <div className="wrapper">
-        <Header value={inputValue} inputChange={SetInputValue} />
-        <div className="content">
-          <div className="container">
-            <Routes>
-              <Route path="/" element={<PizzaBlockContainer inputValue={inputValue} />} />
-              <Route path="/basket" element={<Basket />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+        <SearchContext.Provider value={{ inputValue, SetInputValue }}>
+          <Header />
+          <div className="content">
+            <div className="container">
+              <Routes>
+                <Route path="/" element={<PizzaBlockContainer inputValue={inputValue} />} />
+                <Route path="/basket" element={<Basket />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
           </div>
-        </div>
+        </SearchContext.Provider>
       </div>
     </>
   );
