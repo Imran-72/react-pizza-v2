@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Categories } from './Categories';
@@ -14,11 +15,14 @@ export const PizzaBlockContainer = () => {
   const [page, setPage] = useState(1);
   const { value } = useSelector((state) => state.search);
 
+  // const urlParameters = 'динамическое добавление параметров в url';
+
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://636f63c8bb9cf402c8169079.mockapi.io/items?p=${page}&l=3&search=${value}`)
-      .then((res) => res.json())
-      .then((data) => setItems(data))
+    axios
+      .get(`https://636f63c8bb9cf402c8169079.mockapi.io/items?p=${page}&l=3&search=${value}`)
+      .then((res) => setItems(res.data))
+      .catch((err) => console.error(err.message))
       .finally(() => setIsLoading(false));
     // авто скролл вверех при переходе на страцину, при первой отрисовке
     window.scrollTo(0, 0);
@@ -36,7 +40,7 @@ export const PizzaBlockContainer = () => {
           ? [...new Array(10)].map((_, idx) => <Skeleton key={idx} />)
           : items.map(({ id, ...rest }) => <PizzaBlock key={id} {...rest} />)}
       </div>
-      <Pagination page={page} pagerList={[1, 2, 3, 4, 5]} setPage={setPage} />
+      <Pagination page={page} pagerList={[1, 2, 3, 4]} setPage={setPage} />
     </>
   );
 };
