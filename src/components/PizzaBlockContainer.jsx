@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { setPage } from '../redux-toolkit/Pagination/paginationSlice';
 import { Categories } from './Categories';
 import { Pagination } from './Pagination';
 import { PizzaBlock } from './PizzaBlock';
@@ -12,7 +13,8 @@ export const PizzaBlockContainer = () => {
   const [categoryId, setCategoryId] = useState(0);
   const [sortedId, setSortedId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+  const { page } = useSelector((state) => state.pagination);
   const { value } = useSelector((state) => state.search);
 
   // const urlParameters = 'динамическое добавление параметров в url';
